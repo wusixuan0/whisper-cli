@@ -45,10 +45,17 @@ def main():
         audio_file_path = recordings_dir / "recording.wav"
         wavfile.write(audio_file_path, fs, trimmed_recording)
 
-        print(f"Recorded {duration:.2f} seconds. Transcribing...")
+        print(f"Recorded {duration:.1f} seconds. Transcribing...\n")
+        start_time = time.time()
 
         transcription = transcriber.transcribe(audio_file_path)
         print(transcription)
+
+        with open("temp/voice_typing.md", "a", encoding="utf-8") as file:
+            file.write(f"{transcription}\n\n")
+        
+        duration = time.time() - start_time
+        print(f"\nWhisper API took {duration:.1f} seconds.")
 
     except KeyboardInterrupt:
         print("\nRecording cancelled")
