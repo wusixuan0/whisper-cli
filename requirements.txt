@@ -3,3 +3,4 @@ numpy
 openai
 scipy
 python-dotenv
+PyPDF2
