@@ -3,4 +3,5 @@ numpy
 openai
 scipy
 python-dotenv
-PyPDF2
+langchain_community
+pymupdf

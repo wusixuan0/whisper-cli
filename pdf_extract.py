@@ -1,33 +1,28 @@
-import PyPDF2
 from pathlib import Path
 
-def extract_pdf(file_path, start_page, end_page): 
-    pdf_file = open(file_path, 'rb')
-    pdf_reader = PyPDF2.PdfReader(pdf_file)
-    text = ""
+def load_pdf(file_path):
+    from langchain_community.document_loaders import PyMuPDFLoader
+    loader = PyMuPDFLoader(file_path)
+    docs = loader.load()
+    print(f"{len(docs)} pages")
+    return docs
 
-    for page_num in range(start_page, end_page):
-        page = pdf_reader.pages[page_num]
-        text += page.extract_text()
-    pdf_file.close()
-    return text
+def format_docs(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
+
+def extract_page(file_path, start_page, end_page):
+    docs = load_pdf(file_path)
+    return format_docs(docs[start_page:end_page])
 
 def save_extracted_text(text):
     dir = Path("temp")
-    save_file_path = dir / "extracted_text.md"
+    save_file_path = dir / "extracted_text.txt"
     with open(save_file_path, "a", encoding="utf-8") as file:
+        file.write(get_prompt())
         file.write(text)
 
-if __name__ == '__main__':
-    file_path = '/Users/sixuan/Downloads/books/Microchip.pdf'
-    start = 5
-    end = 20
-    text = extract_pdf(file_path, start, end)
-    save_extracted_text(text)
-
-
-
-PROMPT="""Please provide a detailed explanation for 
+def get_prompt():
+    return """Please provide a detailed explanation for 
 the following chapter from the book
 The Chip: How Two Americans Invented the Microchip and Launched a Revolution by T.R. Reid.
 
@@ -49,3 +44,10 @@ Learning style:
 - Analogy in different category confuses me. Explain within context.
 - Avoid oversimplification
 """
+
+if __name__ == '__main__':
+    file_path = '/Users/sixuan/Downloads/books/Microchip.pdf'
+    start = 20 # Start from page n-1, n is the page number of first page of the chapter
+    end = 47 # End at page n
+    text = extract_page(file_path, start, end)
+    save_extracted_text(text)
