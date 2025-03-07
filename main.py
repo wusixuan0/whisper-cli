@@ -51,9 +51,11 @@ def main():
         transcription = transcriber.transcribe(audio_file_path)
         print(transcription)
 
-        with open("temp/voice_typing.md", "a", encoding="utf-8") as file:
+        file_path = "temp/voice_typing.md"
+        with open(file_path, "a", encoding="utf-8") as file:
             file.write(f"{transcription}\n\n")
-        
+            print(f"\nSave to {file_path}")
+
         duration = time.time() - start_time
         print(f"\nWhisper API took {duration:.1f} seconds.")
 

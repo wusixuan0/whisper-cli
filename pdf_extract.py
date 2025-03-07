@@ -14,25 +14,22 @@ def extract_page(file_path, start_page, end_page):
     docs = load_pdf(file_path)
     return format_docs(docs[start_page:end_page])
 
-def save_extracted_text(text):
+def save_extracted_text(text, book_title):
     dir = Path("temp")
     save_file_path = dir / "extracted_text.txt"
     with open(save_file_path, "a", encoding="utf-8") as file:
-        file.write(get_prompt())
+        file.write(get_prompt(book_title))
         file.write(text)
 
-def get_prompt():
-    return """Please provide a detailed explanation for 
-the following chapter from the book
-The Chip: How Two Americans Invented the Microchip and Launched a Revolution by T.R. Reid.
+def get_prompt(book_title=None):
+    return f"""Please provide a detailed explanation for {f"the following chapter from the book { book_title }" if book_title else "the following text"}
 
 * Provide roadmap of author's logic (try checkboxes to guide my reading if you deem suitable)
 * Include questions and answers that a beginner might ask.
 * ensure thorough coverage of the material.
 
 Audience info: 
-- math and bio degree. software developer. 
-- limit knowledge in hardware. She has read the book *Code: The Hidden Language of Computer Hardware and Software*. the book matches her learning style.
+- math and bio degree. software full stack developer. 
 - want to get technical and able to learn quickly with explanation with context.
 Learning style:
 - emphasize learning through application rather than isolated study, with cross-domain connections acting as the "bridge" to tie abstract principles to actionable work.
@@ -46,8 +43,9 @@ Learning style:
 """
 
 if __name__ == '__main__':
-    file_path = '/Users/sixuan/Downloads/books/Microchip.pdf'
-    start = 20 # Start from page n-1, n is the page number of first page of the chapter
-    end = 47 # End at page n
+    file_path = '/Users/sixuan/Downloads/books/ddia.pdf'
+    start = 48 # Start from page n-1, n is the page number of first page of the chapter
+    end = 68+48 # End at page n, or page of next chapter - 1
     text = extract_page(file_path, start, end)
-    save_extracted_text(text)
+    book_title=""
+    save_extracted_text(text, book_title)
