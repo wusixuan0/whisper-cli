@@ -43,9 +43,11 @@ Learning style:
 """
 
 if __name__ == '__main__':
-    file_path = '/Users/sixuan/Downloads/books/ddia.pdf'
-    start = 48 # Start from page n-1, n is the page number of first page of the chapter
-    end = 68+48 # End at page n, or page of next chapter - 1
+    file_path = '/Users/sixuan/Downloads/125_text.pdf'
+    start = 12 # Start from page n-1, n is the page number of first page of the chapter
+    end = 16 # End at page n, or page of next chapter - 1
     text = extract_page(file_path, start, end)
     book_title=""
     save_extracted_text(text, book_title)
+# langchain_community
+# pymupdf

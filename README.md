@@ -12,5 +12,7 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 pip install --upgrade pip
-python main.py 
+python main.py
 ```
+
+source venv/bin/activate && python main.py
