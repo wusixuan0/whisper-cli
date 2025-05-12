@@ -4,7 +4,6 @@ def load_pdf(file_path):
     from langchain_community.document_loaders import PyMuPDFLoader
     loader = PyMuPDFLoader(file_path)
     docs = loader.load()
-    print(f"{len(docs)} pages")
     return docs
 
 def format_docs(docs):
@@ -22,32 +21,30 @@ def save_extracted_text(text, book_title):
         file.write(text)
 
 def get_prompt(book_title=None):
-    return f"""Please provide a detailed explanation for {f"the following chapter from the book { book_title }" if book_title else "the following text"}
-
-* Provide roadmap of author's logic (try checkboxes to guide my reading if you deem suitable)
-* Include questions and answers that a beginner might ask.
-* ensure thorough coverage of the material.
-
-Audience info: 
-- math and bio degree. software full stack developer. 
-- want to get technical and able to learn quickly with explanation with context.
-Learning style:
-- emphasize learning through application rather than isolated study, with cross-domain connections acting as the "bridge" to tie abstract principles to actionable work.
-- Prefer dynamic, incremental learning over flat information
-- Learn better with (historical) context, patterns, narratives
-- Get excited when see connections between abstract concepts and real-world applications
-- Like to understand the "why" behind systems
-- Need real motivation beyond just "should learn this"
-- Analogy in different category confuses me. Explain within context.
-- Avoid oversimplification
-"""
+    return f"Please analyze {f"the following chapter from the book { book_title }" if book_title else "the following text"}\n* Provide roadmap of author's logic / thought process (try checkboxes to guide reading if deem suitable)\n* Provide thorough coverage of the material. get technical\nHere's the text:\n"
+    """
+    Learning style:
+    - emphasize learning through application rather than isolated study, with cross-domain connections acting as the "bridge" to tie abstract principles to actionable work.
+    - Prefer dynamic, incremental learning over flat information
+    - Learn better with (historical) context, patterns, narratives
+    - Get excited when see connections between abstract concepts and real-world applications
+    - Like to understand the "why" behind systems
+    - Need real motivation beyond just "should learn this"
+    - Analogy in different category confuses me. Explain within context.
+    - Avoid oversimplification
+    """
 
 if __name__ == '__main__':
-    file_path = '/Users/sixuan/Downloads/125_text.pdf'
-    start = 12 # Start from page n-1, n is the page number of first page of the chapter
-    end = 16 # End at page n, or page of next chapter - 1
+    file_path = Path.home() / "Library" / "Mobile Documents" / "com~apple~CloudDocs" / 'epub_pdf/history/network_soviet.pdf'
+    start = 72 # Start from page n-1, n is the page number of first page of the chapter
+    end = 1 # page of next chapter - 1
     text = extract_page(file_path, start, end)
-    book_title=""
+    book_title="How Not to Network a Nation: The Uneasy History of the Soviet Internet by Benjamin Peters"
     save_extracted_text(text, book_title)
-# langchain_community
-# pymupdf
+
+"""
+python3 -m venv venv
+source venv/bin/activate
+pip install pymupdf langchain_community
+python pdf_extract.py
+"""
