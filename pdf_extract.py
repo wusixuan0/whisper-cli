@@ -35,11 +35,16 @@ def get_prompt(book_title=None):
     """
 
 if __name__ == '__main__':
+    # file_path = Path.home() / "Library" / "Mobile Documents" / "com~apple~CloudDocs" / 'epub_pdf/dev/ddia/string/Cstring.pdf'
+    # file_path = Path.home() / "Library" / "Mobile Documents" / "com~apple~CloudDocs" / 'epub_pdf/dev/ddia/string/Gusfield strings, trees, and sequences.pdf'
     file_path = Path.home() / "Library" / "Mobile Documents" / "com~apple~CloudDocs" / 'epub_pdf/history/network_soviet.pdf'
-    start = 72 # Start from page n-1, n is the page number of first page of the chapter
-    end = 1 # page of next chapter - 1
-    text = extract_page(file_path, start, end)
     book_title="How Not to Network a Nation: The Uneasy History of the Soviet Internet by Benjamin Peters"
+
+    # file_path = Path.home() / "Library" / "Mobile Documents" / "com~apple~CloudDocs" / 'epub_pdf/dev/chip.pdf'
+    # book_title="The Chip : How Two Americans Invented the Microchip and Launched a Revolution"
+    start = 95 # n-1
+    end = 121 # page of next chapter - 1
+    text = extract_page(file_path, start, end)
     save_extracted_text(text, book_title)
 
 """
